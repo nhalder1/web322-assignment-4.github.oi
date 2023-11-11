@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public\css\main.css" />
+    <title>Typical Lego Collection</title>
+</head>
+<body>
+
+  <!-- Include the navbar partial with an empty page value -->
+  <%- include('partials/navbar', { page: '' }) %>
+
+  <div class="container">
+    <div class="hero">
+
+      <h1><%= set.name %></h1>
+      <p>Here, you can find all the information about the set lego: <%= set.setNum %></p>
+    </div>
+    <div class="details">
+      <h2><%= set.name %></h2>
+      <p>Set Number: <%= set.setNum %></p>
+      <p>Theme: <a href="/lego/sets?theme=<%= set.theme %>" class="btn-link"><%= set.theme %></a></p>
+      <p>Year: <%= set.year %></p>
+      <p>Number of Parts: <%= set.num_parts %></p>
+      <img src="<%= set.img_url %>" alt="<%= set.name %>" class="set-image">
+
+      <!-- Quote section -->
+      <div class="quote">
+        <p id="quote-content">Fetching randomly </p>
+        <p id="quote-author"></p>
+      </div>
+
+      <!-- Back button -->
+      <a href="#" onclick="history.back(); return false;" class="btn-primary">Back</a>
+    </div>
+  </div>
+
+  <!-- JavaScript to fetch a random quote -->
+  <script>
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch("https://quotable.io/random")
+        .then(response => response.json())
+        .then(data => {
+          const quoteContent = data.content;
+          const quoteAuthor = data.author;
+
+          document.getElementById("quote-content").textContent = quoteContent;
+          document.getElementById("quote-author").textContent = `— ${quoteAuthor}`;
+        })
+        .catch(error => {
+          console.error("Failed to fetch a random quote:", error);
+        });
+    });
+  </script>
+</body>
+</html>
